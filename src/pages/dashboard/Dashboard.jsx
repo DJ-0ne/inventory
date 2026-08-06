@@ -16,7 +16,7 @@ import {
   Calendar,
   RefreshCw,
   Plus,
-  Bell  // ← Added Bell import
+  Bell
 } from "lucide-react";
 import {
   Chart as ChartJS,
@@ -57,6 +57,58 @@ const Dashboard = () => {
   const [lowStockItems, setLowStockItems] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
+  // ✅ Check user role for navigation
+  const userRole = user?.role;
+
+  // ✅ Role-based navigation handlers
+  const handleAddProduct = () => {
+    if (userRole === 'Administrator') {
+      navigate('/inventory/add-product');
+    } else {
+      alert('You do not have permission to add products.');
+    }
+  };
+
+  const handleNewSale = () => {
+    if (userRole === 'Administrator' || userRole === 'Sales Staff') {
+      navigate('/sales/pos');
+    } else {
+      alert('You do not have permission to access POS.');
+    }
+  };
+
+  const handleAddCustomer = () => {
+    if (userRole === 'Administrator' || userRole === 'Sales Staff') {
+      navigate('/customers/add');
+    } else {
+      alert('You do not have permission to add customers.');
+    }
+  };
+
+  const handleCreateOrder = () => {
+    if (userRole === 'Administrator' || userRole === 'Procurement') {
+      navigate('/purchases/create');
+    } else if (userRole === 'Warehouse Staff') {
+      alert('Warehouse Staff can only receive stock, not create orders.');
+    } else {
+      alert('You do not have permission to create purchase orders.');
+    }
+  };
+
+  const handleViewAllOrders = () => {
+    if (userRole === 'Administrator' || userRole === 'Sales Staff') {
+      navigate('/sales/all');
+    } else if (userRole === 'Warehouse Staff' || userRole === 'Procurement') {
+      navigate('/purchases/orders');
+    } else {
+      alert('You do not have permission to view orders.');
+    }
+  };
+
+  const handleViewLowStock = () => {
+    navigate('/inventory/low-stock');
+  };
+
   // Load data
   const loadData = () => {
     const orders = dataService.getOrders();
@@ -70,7 +122,6 @@ const Dashboard = () => {
       { title: "Low Stock Items", value: statsData.lowStockItems.toString(), change: "+8.2%", trend: "down", icon: AlertTriangle, color: "bg-red-800", borderColor: "border-red-800" }
     ]);
 
-    // Format orders for display
     const formattedOrders = orders.slice(0, 6).map(order => ({
       id: order.id,
       customer: order.customer || 'Walk-in Customer',
@@ -87,7 +138,6 @@ const Dashboard = () => {
   useEffect(() => {
     loadData();
 
-    // Subscribe to data changes
     const unsubscribeProducts = dataService.subscribe('products', loadData);
     const unsubscribeOrders = dataService.subscribe('orders', loadData);
 
@@ -102,7 +152,6 @@ const Dashboard = () => {
   };
 
   const handleExport = () => {
-    // Create CSV data
     const headers = ['Product', 'SKU', 'Category', 'Price', 'Stock', 'Status'];
     const rows = dataService.getProducts().map(p => 
       [p.name, p.sku, p.category, `$${p.price}`, p.stock, p.status]
@@ -113,7 +162,6 @@ const Dashboard = () => {
       csv += row.join(',') + '\n';
     });
 
-    // Download CSV
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -126,7 +174,6 @@ const Dashboard = () => {
   const handleReorder = (productId) => {
     const product = dataService.getProduct(productId);
     if (product) {
-      // Create a purchase order
       dataService.addPurchaseOrder({
         supplier: product.supplier || 'Unknown',
         items: [{ 
@@ -194,7 +241,6 @@ const Dashboard = () => {
     cutout: '65%'
   };
 
-  // Chart data from service
   const revenueData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [
@@ -259,7 +305,6 @@ const Dashboard = () => {
     ]
   };
 
-  // Get quick stats safely
   const quickStats = dataService.getStats();
 
   return (
@@ -320,36 +365,57 @@ const Dashboard = () => {
         ))}
       </div>
 
-      {/* Quick Actions */}
+      {/* Quick Actions - Role Based */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <button 
-          onClick={() => navigate('/inventory/add-product')}
-          className="bg-blue-950 text-white p-3 font-bold hover:bg-blue-900 transition-colors flex items-center justify-center gap-2"
-        >
-          <Plus size={20} />
-          Add Product
-        </button>
-        <button 
-          onClick={() => navigate('/sales/pos')}
-          className="bg-orange-600 text-white p-3 font-bold hover:bg-orange-700 transition-colors flex items-center justify-center gap-2"
-        >
-          <ShoppingCart size={20} />
-          New Sale
-        </button>
-        <button 
-          onClick={() => navigate('/customers/add')}
-          className="bg-green-800 text-white p-3 font-bold hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
-        >
-          <Users size={20} />
-          Add Customer
-        </button>
-        <button 
-          onClick={() => navigate('/purchases/create')}
-          className="bg-purple-800 text-white p-3 font-bold hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
-        >
-          <Package size={20} />
-          Create Order
-        </button>
+        {userRole === 'Administrator' && (
+          <button 
+            onClick={handleAddProduct}
+            className="bg-blue-950 text-white p-3 font-bold hover:bg-blue-900 transition-colors flex items-center justify-center gap-2"
+          >
+            <Plus size={20} />
+            Add Product
+          </button>
+        )}
+        
+        {(userRole === 'Administrator' || userRole === 'Sales Staff') && (
+          <button 
+            onClick={handleNewSale}
+            className="bg-orange-600 text-white p-3 font-bold hover:bg-orange-700 transition-colors flex items-center justify-center gap-2"
+          >
+            <ShoppingCart size={20} />
+            New Sale
+          </button>
+        )}
+        
+        {(userRole === 'Administrator' || userRole === 'Sales Staff') && (
+          <button 
+            onClick={handleAddCustomer}
+            className="bg-green-800 text-white p-3 font-bold hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+          >
+            <Users size={20} />
+            Add Customer
+          </button>
+        )}
+        
+        {(userRole === 'Administrator' || userRole === 'Procurement') && (
+          <button 
+            onClick={handleCreateOrder}
+            className="bg-purple-800 text-white p-3 font-bold hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
+          >
+            <Package size={20} />
+            Create Order
+          </button>
+        )}
+
+        {userRole === 'Warehouse Staff' && (
+          <button 
+            onClick={() => navigate('/purchases/receive')}
+            className="bg-teal-800 text-white p-3 font-bold hover:bg-teal-700 transition-colors flex items-center justify-center gap-2"
+          >
+            <Package size={20} />
+            Receive Stock
+          </button>
+        )}
       </div>
 
       {/* Charts Row */}
@@ -448,7 +514,7 @@ const Dashboard = () => {
               <p className="text-sm text-gray-600 font-medium">Latest transactions</p>
             </div>
             <button 
-              onClick={() => navigate('/sales/all')}
+              onClick={handleViewAllOrders}
               className="text-orange-600 font-bold text-sm hover:text-orange-800 transition-colors flex items-center gap-1"
             >
               <Eye size={16} />
@@ -531,7 +597,7 @@ const Dashboard = () => {
             )}
           </div>
           <button 
-            onClick={() => navigate('/inventory/low-stock')}
+            onClick={handleViewLowStock}
             className="w-full mt-4 bg-blue-950 text-white py-2 font-bold hover:bg-blue-900 transition-colors border-2 border-blue-950 text-sm"
           >
             View All Low Stock Items

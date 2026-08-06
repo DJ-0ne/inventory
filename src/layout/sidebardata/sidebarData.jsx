@@ -139,7 +139,7 @@ const roleAccess = {
   },
   'Sales Staff': {
     dashboard: true,
-    inventory: true,      // View only
+    inventory: true,
     warehouses: false,
     purchases: false,
     sales: true,
@@ -165,7 +165,7 @@ const roleAccess = {
   },
   'Procurement': {
     dashboard: true,
-    inventory: true,      // View only
+    inventory: true,
     warehouses: false,
     purchases: true,
     sales: false,
@@ -178,13 +178,31 @@ const roleAccess = {
   }
 };
 
-// ✅ Sub-item access control
+// ✅ SUB-ITEM ACCESS CONTROL - EXACT MATCHES
 const subItemAccess = {
   'Administrator': {
+    'All Products': true,
     'Add Product': true,
     'Bulk Import': true,
+    'Stock Adjustment': true,
+    'Low Stock': true,
+    'Out of Stock': true,
+    'All Warehouses': true,
     'Add Warehouse': true,
+    'Stock Transfers': true,
+    'Purchase Orders': true,
+    'Create Purchase Order': true,
+    'Receive Stock': true,
+    'Suppliers': true,
+    'Point of Sale (POS)': true,
+    'All Sales': true,
+    'Sales Returns': true,
+    'All Invoices': true,
+    'Create Invoice': true,
     'Invoice Settings': true,
+    'All Customers': true,
+    'Add Customer': true,
+    'Purchase History': true,
     'Sales Reports': true,
     'Daily Sales': true,
     'Weekly/Monthly/Yearly': true,
@@ -192,6 +210,9 @@ const subItemAccess = {
     'Revenue Tracking': true,
     'Profit Margin': true,
     'Supplier Performance': true,
+    'Low Stock Alerts': true,
+    'Reorder Suggestions': true,
+    'Expiry Alerts': true,
     'Daily Summary': true,
     'System Events': true,
     'All Users': true,
@@ -205,111 +226,59 @@ const subItemAccess = {
     'Export Data': true
   },
   'Sales Staff': {
-    'Add Product': false,
-    'Bulk Import': false,
-    'Add Warehouse': false,
-    'Invoice Settings': false,
-    'Sales Reports': false,
-    'Daily Sales': false,
-    'Weekly/Monthly/Yearly': false,
-    'Top Selling Products': false,
-    'Revenue Tracking': false,
-    'Profit Margin': false,
-    'Supplier Performance': false,
-    'Daily Summary': false,
-    'System Events': false,
-    'All Users': false,
-    'Add User': false,
-    'Roles & Permissions': false,
-    'Audit Trail': false,
-    'Store Configuration': false,
-    'Backup': false,
-    'Restore': false,
-    'API Settings': false,
-    'Export Data': false
+    'All Products': true,
+    'Low Stock': true,
+    'Point of Sale (POS)': true,
+    'All Sales': true,
+    'Sales Returns': true,
+    'All Invoices': true,
+    'Create Invoice': true,
+    'All Customers': true,
+    'Add Customer': true,
+    'Purchase History': true,
+    'Low Stock Alerts': true
   },
   'Warehouse Staff': {
-    'Add Product': false,
-    'Bulk Import': false,
-    'Add Warehouse': false,
-    'Invoice Settings': false,
-    'Sales Reports': false,
-    'Daily Sales': false,
-    'Weekly/Monthly/Yearly': false,
-    'Top Selling Products': false,
-    'Revenue Tracking': false,
-    'Profit Margin': false,
-    'Supplier Performance': false,
-    'Daily Summary': false,
-    'System Events': false,
-    'All Users': false,
-    'Add User': false,
-    'Roles & Permissions': false,
-    'Audit Trail': false,
-    'Store Configuration': false,
-    'Backup': false,
-    'Restore': false,
-    'API Settings': false,
-    'Export Data': false
+    'All Products': true,
+    'Stock Adjustment': true,
+    'Low Stock': true,
+    'Out of Stock': true,
+    'All Warehouses': true,
+    'Stock Transfers': true,
+    'Purchase Orders': true,
+    'Receive Stock': true,
+    'Low Stock Alerts': true,
+    'Reorder Suggestions': true,
+    'Expiry Alerts': true
   },
   'Procurement': {
-    'Add Product': false,
-    'Bulk Import': false,
-    'Add Warehouse': false,
-    'Invoice Settings': false,
-    'Sales Reports': false,
-    'Daily Sales': false,
-    'Weekly/Monthly/Yearly': false,
-    'Top Selling Products': false,
-    'Revenue Tracking': false,
-    'Profit Margin': false,
-    'Supplier Performance': false,
-    'Daily Summary': false,
-    'System Events': false,
-    'All Users': false,
-    'Add User': false,
-    'Roles & Permissions': false,
-    'Audit Trail': false,
-    'Store Configuration': false,
-    'Backup': false,
-    'Restore': false,
-    'API Settings': false,
-    'Export Data': false
+    'All Products': true,
+    'Low Stock': true,
+    'Purchase Orders': true,
+    'Create Purchase Order': true,
+    'Suppliers': true,
+    'Low Stock Alerts': true,
+    'Reorder Suggestions': true
   }
 };
 
-// ✅ MAIN FILTERING FUNCTION - This removes items users shouldn't see
+// ✅ MAIN FILTERING FUNCTION
 export const getSidebarData = (userRole) => {
-  // If no role, return empty array (nothing to show)
   if (!userRole) return [];
 
-  // Normalize the role string defensively (trim whitespace) so small
-  // formatting differences from the backend/login payload don't silently
-  // fall through to "no access found".
   const normalizedRole = String(userRole).trim();
 
-  // Get access rules for this role.
-  // IMPORTANT: fall back to an EMPTY object (no access) rather than
-  // Administrator access. Falling back to Administrator meant any
-  // unrecognized/mismatched role string (wrong case, typo, different
-  // label, etc.) silently saw the FULL admin menu — that was the bug.
   const access = roleAccess[normalizedRole] || {};
   const subAccess = subItemAccess[normalizedRole] || {};
 
-  // Warn loudly if the role isn't recognized at all, instead of
-  // silently granting or denying everything without a trace.
   if (!roleAccess[normalizedRole]) {
     console.warn(
-      `⚠️ Unrecognized role "${userRole}" — no matching entry in roleAccess. ` +
-      `Defaulting to NO menu access. Check that the role string from login ` +
-      `exactly matches one of: ${Object.keys(roleAccess).join(', ')}`
+      `⚠️ Unrecognized role "${userRole}". Available roles: ${Object.keys(roleAccess).join(', ')}`
     );
   }
 
-  // Step 1: Filter main menu items
   const filteredData = sidebarData
     .filter(item => {
-      // Map title to key for access check
       const titleMap = {
         'Dashboard': 'dashboard',
         'Inventory': 'inventory',
@@ -324,11 +293,8 @@ export const getSidebarData = (userRole) => {
         'System': 'system'
       };
       const key = titleMap[item.title] || item.title.toLowerCase();
-
-      // Only keep if access is true
       return access[key] === true;
     })
-    // Step 2: Filter sub-items
     .map(item => {
       if (item.subItems) {
         const filteredSubItems = item.subItems.filter(subItem => {
@@ -336,11 +302,10 @@ export const getSidebarData = (userRole) => {
           if (subAccess[subItem.title] !== undefined) {
             return subAccess[subItem.title] === true;
           }
-          // If no specific rule, allow it (for non-sensitive items)
-          return true;
+          // Default: don't show if not explicitly allowed
+          return false;
         });
 
-        // Return item with filtered subItems
         return {
           ...item,
           subItems: filteredSubItems
@@ -348,18 +313,14 @@ export const getSidebarData = (userRole) => {
       }
       return item;
     })
-    // Step 3: Remove parent items that have no accessible sub-items
     .filter(item => {
-      // If item has subItems but all were filtered out, remove the parent
       if (item.subItems && item.subItems.length === 0) {
         return false;
       }
       return true;
     });
 
-  // For debugging - you can log what each role sees
   console.log(`🔍 ${userRole} sees:`, filteredData.map(item => item.title));
-
   return filteredData;
 };
 

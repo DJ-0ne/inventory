@@ -30,13 +30,12 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  const canEdit = hasPermission('inventory', 'edit');
-  const canDelete = hasPermission('inventory', 'delete');
+  const canEdit = hasPermission?.('inventory', 'edit');
+  const canDelete = hasPermission?.('inventory', 'delete');
 
   // Load products from dataService
   useEffect(() => {
     loadProducts();
-    // Subscribe to product changes
     const unsubscribe = dataService.subscribe('products', loadProducts);
     return () => unsubscribe();
   }, []);
@@ -56,7 +55,6 @@ const Products = () => {
   const filterProducts = () => {
     let filtered = [...products];
 
-    // Search filter
     if (searchTerm) {
       filtered = filtered.filter(p =>
         p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -65,12 +63,10 @@ const Products = () => {
       );
     }
 
-    // Category filter
     if (filterCategory !== 'all') {
       filtered = filtered.filter(p => p.category === filterCategory);
     }
 
-    // Status filter
     if (filterStatus !== 'all') {
       filtered = filtered.filter(p => p.status === filterStatus);
     }
@@ -93,7 +89,6 @@ const Products = () => {
     return colors[status] || 'bg-gray-700 text-white';
   };
 
-  // Handle product actions
   const handleView = (id) => {
     navigate(`/inventory/product/${id}`);
   };
@@ -112,7 +107,6 @@ const Products = () => {
   const handleReorder = (productId) => {
     const product = dataService.getProduct(productId);
     if (product) {
-      // Create a purchase order
       dataService.addPurchaseOrder({
         supplier: product.supplier || 'Unknown',
         items: [{ 
@@ -127,7 +121,6 @@ const Products = () => {
     }
   };
 
-  // Export to CSV
   const handleExport = () => {
     const headers = ['Product', 'SKU', 'Category', 'Price', 'Cost', 'Stock', 'Reorder Level', 'Status', 'Supplier'];
     const rows = filteredProducts.map(p => 
@@ -150,7 +143,6 @@ const Products = () => {
     window.URL.revokeObjectURL(url);
   };
 
-  // Get stats
   const getStats = () => {
     const total = products.length;
     const inStock = products.filter(p => p.status === 'In Stock').length;
@@ -160,14 +152,13 @@ const Products = () => {
   };
 
   const stats = getStats();
-
-  // Pagination
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
+  // ✅ FIX: Return a SINGLE element with a wrapper div
   if (loading) {
     return (
       <div className="p-6 bg-gray-50 min-h-screen flex items-center justify-center">
