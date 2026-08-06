@@ -46,10 +46,15 @@ const Sidebar = () => {
     return IconComponent ? <IconComponent size={24} color="white" /> : null;
   };
 
+  // ✅ SIMPLEST FIX: Handle logout with full page reload
   const handleLogout = () => {
     if (window.confirm('Are you sure you want to logout?')) {
       logout();
-      window.location.href = '/login';
+      // Clear all browser storage
+      localStorage.clear();
+      sessionStorage.clear();
+      // Force full page reload to login page
+      window.location.assign('/login');
     }
   };
 

@@ -28,12 +28,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    // Clear all localStorage
     localStorage.removeItem('authToken');
     localStorage.removeItem('userData');
+    localStorage.removeItem('refreshToken');
+    // Clear sessionStorage if used
+    sessionStorage.clear();
     setUser(null);
   };
 
-  // ✅ This returns ONLY the menu items this role can see
   const getMenu = () => {
     if (!user) return [];
     return getSidebarData(user.role);
