@@ -1,44 +1,36 @@
 // src/pages/auth/Login.jsx
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Building, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
+// TEMPORARY stand-in for what the backend will eventually own:
+// each account's role, looked up by email. Once a real backend exists,
+// replace the lookup inside handleSubmit with an actual API call
+// (e.g. POST /api/login) that returns { role, name, token, ... } —
+// nothing else in the app (AuthContext, sidebarData) needs to change.
+const mockUsers = {
+  'admin@hardware.com': { role: 'Administrator', name: 'Admin User' },
+  'sales@hardware.com': { role: 'Sales Staff', name: 'Sales User' },
+  'warehouse@hardware.com': { role: 'Warehouse Staff', name: 'Warehouse User' },
+  'procurement@hardware.com': { role: 'Procurement', name: 'Procurement User' },
+};
+
 const Login = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { login } = useAuth();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
   });
   const [error, setError] = useState('');
-
-  const from = location.state?.from?.pathname || '/dashboard';
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     setError('');
-  };
-
-  // ✅ Auto-detect role based on email
-  const detectRole = (email) => {
-    const emailLower = email.toLowerCase();
-    
-    if (emailLower.includes('admin') || emailLower.includes('administrator')) {
-      return 'Administrator';
-    } else if (emailLower.includes('sales') || emailLower.includes('cashier')) {
-      return 'Sales Staff';
-    } else if (emailLower.includes('warehouse') || emailLower.includes('stock')) {
-      return 'Warehouse Staff';
-    } else if (emailLower.includes('procurement') || emailLower.includes('buyer') || emailLower.includes('purchase')) {
-      return 'Procurement';
-    }
-    // Default role if no match
-    return 'Sales Staff';
   };
 
   const handleSubmit = async (e) => {
@@ -47,69 +39,30 @@ const Login = () => {
     setError('');
 
     try {
-      // Auto-detect role from email
-      const detectedRole = detectRole(formData.email);
-      
+      const normalizedEmail = formData.email.trim().toLowerCase();
+      const matchedUser = mockUsers[normalizedEmail];
+
+      if (!matchedUser) {
+        setError('No account found for this email. Try one of the demo accounts below.');
+        setLoading(false);
+        return;
+      }
+
       const userData = {
         id: 1,
-        name: formData.email.split('@')[0] || 'User',
-        email: formData.email || 'user@hardware.com',
-        role: detectedRole,
-        token: 'mock-token-123'
+        email: normalizedEmail,
+        name: matchedUser.name,
+        role: matchedUser.role,
+        token: 'mock-token-123',
       };
 
       login(userData);
-      navigate(from, { replace: true });
+      navigate('/dashboard');
     } catch (err) {
       setError('Login failed. Please try again.');
     } finally {
       setLoading(false);
     }
-  };
-
-  // ✅ Quick login buttons with preset credentials
-  const quickLogins = [
-    { 
-      label: 'Admin', 
-      email: 'admin@hardware.com', 
-      role: 'Administrator',
-      color: 'bg-blue-950 hover:bg-blue-900'
-    },
-    { 
-      label: 'Sales', 
-      email: 'sales@hardware.com', 
-      role: 'Sales Staff',
-      color: 'bg-orange-600 hover:bg-orange-700'
-    },
-    { 
-      label: 'Warehouse', 
-      email: 'warehouse@hardware.com', 
-      role: 'Warehouse Staff',
-      color: 'bg-green-800 hover:bg-green-700'
-    },
-    { 
-      label: 'Procurement', 
-      email: 'procurement@hardware.com', 
-      role: 'Procurement',
-      color: 'bg-purple-800 hover:bg-purple-700'
-    }
-  ];
-
-  const handleQuickLogin = (email) => {
-    setFormData({ email, password: 'password' });
-    // Auto-submit after setting credentials
-    setTimeout(() => {
-      const detectedRole = detectRole(email);
-      const userData = {
-        id: 1,
-        name: email.split('@')[0] || 'User',
-        email: email,
-        role: detectedRole,
-        token: 'mock-token-123'
-      };
-      login(userData);
-      navigate(from, { replace: true });
-    }, 100);
   };
 
   return (
@@ -142,12 +95,6 @@ const Login = () => {
                     required
                   />
                 </div>
-                <p className="text-xs text-gray-400 mt-1">
-                  Role auto-detected from email: 
-                  <span className="font-bold text-blue-950 ml-1">
-                    {formData.email ? detectRole(formData.email) : 'Not detected'}
-                  </span>
-                </p>
               </div>
 
               <div>
@@ -173,6 +120,10 @@ const Login = () => {
                 </div>
               </div>
 
+              {/* Role is no longer selectable here — it's derived from the
+                  matched account (mockUsers below), same as a real backend
+                  would return it tied to the account, not the login form. */}
+
               {error && (
                 <div className="bg-red-50 border-2 border-red-800 p-3">
                   <p className="text-red-800 text-sm font-bold">{error}</p>
@@ -189,30 +140,12 @@ const Login = () => {
             </div>
           </form>
 
-          <div className="mt-6 pt-4 border-t-2 border-blue-950/10">
-            <p className="text-xs text-gray-500 text-center font-medium mb-3">Quick Login (Auto-detects role from email)</p>
-            <div className="grid grid-cols-2 gap-2">
-              {quickLogins.map((login) => (
-                <button
-                  key={login.label}
-                  onClick={() => handleQuickLogin(login.email)}
-                  className={`${login.color} text-white py-2 text-sm font-bold transition-colors border-2 border-transparent`}
-                >
-                  {login.label}
-                </button>
-              ))}
-            </div>
-            <div className="mt-3 text-center">
-              <p className="text-xs text-gray-400 font-medium">
-                Role is auto-detected from email domain or keywords:
-              </p>
-              <div className="flex flex-wrap justify-center gap-2 mt-1 text-xs text-gray-500">
-                <span className="bg-gray-100 px-2 py-0.5">admin → Admin</span>
-                <span className="bg-gray-100 px-2 py-0.5">sales → Sales</span>
-                <span className="bg-gray-100 px-2 py-0.5">warehouse → Warehouse</span>
-                <span className="bg-gray-100 px-2 py-0.5">procurement → Procurement</span>
-              </div>
-            </div>
+          <div className="mt-4 text-center">
+            <p className="text-xs text-gray-500 font-medium mb-1">Demo accounts (any password):</p>
+            <p className="text-xs text-gray-500 font-medium">admin@hardware.com</p>
+            <p className="text-xs text-gray-500 font-medium">sales@hardware.com</p>
+            <p className="text-xs text-gray-500 font-medium">warehouse@hardware.com</p>
+            <p className="text-xs text-gray-500 font-medium">procurement@hardware.com</p>
           </div>
         </div>
       </div>

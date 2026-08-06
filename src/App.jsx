@@ -57,10 +57,10 @@ function App() {
     <Router>
       <AuthProvider>
         <Routes>
-          {/* ✅ Public Route - No protection */}
+          {/* Public Routes */}
           <Route path="/login" element={<Login />} />
           
-          {/* ✅ Protected Routes - All wrapped with ProtectedRoute */}
+          {/* Protected Routes - Wrapped with Layout */}
           <Route path="/" element={
             <ProtectedRoute>
               <Layout>
@@ -69,6 +69,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* Dashboard - All Roles */}
           <Route path="/dashboard" element={
             <ProtectedRoute>
               <Layout>
@@ -77,7 +78,8 @@ function App() {
             </ProtectedRoute>
           } />
           
-          {/* Inventory Routes */}
+          {/* ===== INVENTORY ROUTES ===== */}
+          {/* All Roles can view products */}
           <Route path="/inventory/products" element={
             <ProtectedRoute>
               <Layout>
@@ -86,6 +88,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* Admin Only */}
           <Route path="/inventory/add-product" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -93,7 +96,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/inventory/bulk-import" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -102,6 +104,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* Admin & Warehouse Staff */}
           <Route path="/inventory/stock-adjustment" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Warehouse Staff']}>
               <Layout>
@@ -110,6 +113,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* All Roles */}
           <Route path="/inventory/low-stock" element={
             <ProtectedRoute>
               <Layout>
@@ -118,6 +122,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* Admin & Warehouse Staff */}
           <Route path="/inventory/out-of-stock" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Warehouse Staff']}>
               <Layout>
@@ -126,7 +131,8 @@ function App() {
             </ProtectedRoute>
           } />
           
-          {/* Warehouse Routes */}
+          {/* ===== WAREHOUSE ROUTES ===== */}
+          {/* Admin & Warehouse Staff */}
           <Route path="/warehouses/all" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Warehouse Staff']}>
               <Layout>
@@ -135,6 +141,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* Admin Only */}
           <Route path="/warehouses/add" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -143,6 +150,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* Admin & Warehouse Staff */}
           <Route path="/warehouses/transfers" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Warehouse Staff']}>
               <Layout>
@@ -151,7 +159,8 @@ function App() {
             </ProtectedRoute>
           } />
           
-          {/* Purchase Routes */}
+          {/* ===== PURCHASE ROUTES ===== */}
+          {/* Admin, Warehouse Staff & Procurement */}
           <Route path="/purchases/orders" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Warehouse Staff', 'Procurement']}>
               <Layout>
@@ -160,6 +169,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* Admin & Procurement */}
           <Route path="/purchases/create" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Procurement']}>
               <Layout>
@@ -168,6 +178,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* Admin & Warehouse Staff */}
           <Route path="/purchases/receive" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Warehouse Staff']}>
               <Layout>
@@ -176,6 +187,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* Admin & Procurement */}
           <Route path="/purchases/suppliers" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Procurement']}>
               <Layout>
@@ -184,7 +196,8 @@ function App() {
             </ProtectedRoute>
           } />
           
-          {/* Sales Routes */}
+          {/* ===== SALES ROUTES ===== */}
+          {/* Admin & Sales Staff */}
           <Route path="/sales/pos" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Sales Staff']}>
               <Layout>
@@ -192,7 +205,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/sales/all" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Sales Staff']}>
               <Layout>
@@ -200,7 +212,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/sales/returns" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Sales Staff']}>
               <Layout>
@@ -209,7 +220,8 @@ function App() {
             </ProtectedRoute>
           } />
           
-          {/* Invoice Routes */}
+          {/* ===== INVOICE ROUTES ===== */}
+          {/* Admin & Sales Staff */}
           <Route path="/invoices/all" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Sales Staff']}>
               <Layout>
@@ -217,7 +229,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/invoices/create" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Sales Staff']}>
               <Layout>
@@ -226,6 +237,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* Admin Only */}
           <Route path="/invoices/settings" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -234,7 +246,8 @@ function App() {
             </ProtectedRoute>
           } />
           
-          {/* Customer Routes */}
+          {/* ===== CUSTOMER ROUTES ===== */}
+          {/* Admin & Sales Staff */}
           <Route path="/customers/all" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Sales Staff']}>
               <Layout>
@@ -242,7 +255,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/customers/add" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Sales Staff']}>
               <Layout>
@@ -250,7 +262,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/customers/purchase-history" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Sales Staff']}>
               <Layout>
@@ -259,7 +270,7 @@ function App() {
             </ProtectedRoute>
           } />
           
-          {/* Report Routes - Admin Only */}
+          {/* ===== REPORT ROUTES - Admin Only ===== */}
           <Route path="/reports/sales" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -267,7 +278,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/reports/daily" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -275,7 +285,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/reports/period" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -283,7 +292,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/reports/top-products" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -291,7 +299,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/reports/revenue" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -299,7 +306,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/reports/profit-margin" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -307,7 +313,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/reports/supplier-performance" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -316,7 +321,8 @@ function App() {
             </ProtectedRoute>
           } />
           
-          {/* Notification Routes */}
+          {/* ===== NOTIFICATION ROUTES ===== */}
+          {/* All Roles */}
           <Route path="/notifications/low-stock" element={
             <ProtectedRoute>
               <Layout>
@@ -325,6 +331,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* Admin, Warehouse Staff & Procurement */}
           <Route path="/notifications/reorder" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Warehouse Staff', 'Procurement']}>
               <Layout>
@@ -333,6 +340,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* Admin & Warehouse Staff */}
           <Route path="/notifications/expiry" element={
             <ProtectedRoute allowedRoles={['Administrator', 'Warehouse Staff']}>
               <Layout>
@@ -341,6 +349,7 @@ function App() {
             </ProtectedRoute>
           } />
           
+          {/* Admin Only */}
           <Route path="/notifications/daily-summary" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -348,7 +357,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/notifications/system-events" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -357,7 +365,7 @@ function App() {
             </ProtectedRoute>
           } />
           
-          {/* User Routes - Admin Only */}
+          {/* ===== USER ROUTES - Admin Only ===== */}
           <Route path="/users/all" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -365,7 +373,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/users/add" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -373,7 +380,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/users/roles" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -381,7 +387,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/users/audit" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -390,7 +395,7 @@ function App() {
             </ProtectedRoute>
           } />
           
-          {/* System Routes - Admin Only */}
+          {/* ===== SYSTEM ROUTES - Admin Only ===== */}
           <Route path="/system/store-config" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -398,7 +403,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/system/backup" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -406,7 +410,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/system/restore" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -414,7 +417,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/system/api" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -422,7 +424,6 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
-          
           <Route path="/system/export" element={
             <ProtectedRoute allowedRoles={['Administrator']}>
               <Layout>
@@ -431,7 +432,7 @@ function App() {
             </ProtectedRoute>
           } />
           
-          {/* ✅ Catch all - redirect to dashboard if logged in, otherwise to login */}
+          {/* Catch all */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </AuthProvider>

@@ -96,7 +96,6 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const { user, loading, isAuthenticated } = useAuth();
   const location = useLocation();
 
-  // Show loading spinner while checking authentication
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -105,22 +104,19 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
     );
   }
 
-  // ✅ IMPORTANT: If not authenticated, redirect to login
-  // The `state: { from: location }` saves the current location so we can redirect back after login
+  // Check if user is logged in
   if (!isAuthenticated) {
-    console.log('🔒 Not authenticated, redirecting to login from:', location.pathname);
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   // Check role-based access for the specific route
   if (!canAccessRoute(location.pathname, user.role)) {
-    console.log('🚫 Role:', user.role, 'cannot access:', location.pathname);
+    // Redirect to dashboard if they don't have access
     return <Navigate to="/dashboard" replace />;
   }
 
   // Check if user has any of the allowed roles (if specified)
   if (allowedRoles.length > 0 && !allowedRoles.includes(user.role)) {
-    console.log('🚫 Role:', user.role, 'not in allowed roles:', allowedRoles);
     return <Navigate to="/dashboard" replace />;
   }
 

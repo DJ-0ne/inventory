@@ -10,14 +10,11 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const userData = localStorage.getItem('userData');
-    console.log('🔐 Loading user data from localStorage:', userData);
     if (userData) {
       try {
         const parsed = JSON.parse(userData);
-        console.log('✅ User loaded:', parsed);
         setUser(parsed);
       } catch (e) {
-        console.error('❌ Error parsing user data:', e);
         localStorage.removeItem('userData');
       }
     }
@@ -25,28 +22,21 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userData) => {
-    console.log('🔐 Logging in user:', userData);
     localStorage.setItem('authToken', userData.token || 'mock-token');
     localStorage.setItem('userData', JSON.stringify(userData));
     setUser(userData);
   };
 
   const logout = () => {
-    console.log('🔐 Logging out');
     localStorage.removeItem('authToken');
     localStorage.removeItem('userData');
     setUser(null);
   };
 
+  // ✅ This returns ONLY the menu items this role can see
   const getMenu = () => {
-    if (!user) {
-      console.log('⚠️ No user, returning empty menu');
-      return [];
-    }
-    console.log(`📋 Getting menu for role: ${user.role}`);
-    const menu = getSidebarData(user.role);
-    console.log('📋 Menu items:', menu.map(item => item.title));
-    return menu;
+    if (!user) return [];
+    return getSidebarData(user.role);
   };
 
   const hasRole = (role) => {
