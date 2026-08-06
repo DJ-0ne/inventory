@@ -28,12 +28,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    // Clear all localStorage
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userData');
-    localStorage.removeItem('refreshToken');
-    // Clear sessionStorage if used
+    // Clear all storage
+    localStorage.clear();
     sessionStorage.clear();
+    // Clear cookies if any
+    document.cookie.split(";").forEach((c) => {
+      document.cookie = c
+        .replace(/^ +/, "")
+        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
     setUser(null);
   };
 
