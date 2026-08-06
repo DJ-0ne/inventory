@@ -57,14 +57,16 @@ function App() {
     <Router>
       <AuthProvider>
         <Routes>
-          {/* Public Routes */}
+          {/* ===== PUBLIC ROUTES ===== */}
+          {/* ✅ Login page - accessible without authentication */}
           <Route path="/login" element={<Login />} />
           
-          {/* Protected Routes - Wrapped with Layout */}
+          {/* ===== PROTECTED ROUTES ===== */}
+          {/* Root path - redirect to dashboard */}
           <Route path="/" element={
             <ProtectedRoute>
               <Layout>
-                <Navigate to="/dashboard" />
+                <Navigate to="/dashboard" replace />
               </Layout>
             </ProtectedRoute>
           } />
@@ -432,7 +434,8 @@ function App() {
             </ProtectedRoute>
           } />
           
-          {/* Catch all */}
+          {/* ===== CATCH ALL ===== */}
+          {/* ✅ Redirect any unknown routes to dashboard */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </AuthProvider>
