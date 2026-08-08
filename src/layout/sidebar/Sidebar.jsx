@@ -36,7 +36,9 @@ const Sidebar = () => {
   };
 
   const isActive = (link) => {
-    return location.pathname === link || location.pathname.startsWith(link + "/");
+    return (
+      location.pathname === link || location.pathname.startsWith(link + "/")
+    );
   };
 
   const getIcon = (iconName) => {
@@ -49,7 +51,7 @@ const Sidebar = () => {
       logout();
       localStorage.clear();
       sessionStorage.clear();
-      window.location.assign("/login");
+      window.location.assign("/");
     }
   };
 
@@ -85,26 +87,45 @@ const Sidebar = () => {
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div
           className="absolute inset-0"
-          style={{ backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)", backgroundSize: "40px 40px" }}
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
+            backgroundSize: "40px 40px",
+          }}
         ></div>
       </div>
       <div
         className="absolute right-0 top-0 h-32 w-32 bg-white/5 pointer-events-none"
-        style={{ clipPath: "polygon(100% 0, 0% 100%, 100% 100%)", opacity: 0.2 }}
+        style={{
+          clipPath: "polygon(100% 0, 0% 100%, 100% 100%)",
+          opacity: 0.2,
+        }}
       ></div>
 
       <div className="relative z-10">
         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-orange-400 to-orange-600"></div>
-        <div className={`flex items-center p-5 border-b border-white/10 bg-blue-950 ${isCollapsed ? "justify-center" : "justify-between"}`}>
-          <div className={`flex items-center ${isCollapsed ? "flex-col" : "space-x-4"}`}>
+        <div
+          className={`flex items-center p-5 border-b border-white/10 bg-blue-950 ${isCollapsed ? "justify-center" : "justify-between"}`}
+        >
+          <div
+            className={`flex items-center ${isCollapsed ? "flex-col" : "space-x-4"}`}
+          >
             <div className="relative">
-              <img src="/logo.jpeg" alt="Logo" className={`object-cover border-2 border-white/40 shadow-2xl ${isCollapsed ? "w-12 h-12" : "w-14 h-14"}`} />
+              <img
+                src="/logo.jpeg"
+                alt="Logo"
+                className={`object-cover border-2 border-white/40 shadow-2xl ${isCollapsed ? "w-12 h-12" : "w-14 h-14"}`}
+              />
               <span className="absolute bottom-0 right-0 w-3 h-3 bg-orange-400 border-2 border-white rounded-full animate-pulse"></span>
             </div>
             {!isCollapsed && (
               <div className="flex flex-col">
-                <h1 className="text-white font-bold text-lg leading-tight">Hardware Store</h1>
-                <p className="text-sm font-extrabold text-white/80 truncate">{getUserRoleDisplay(user?.role) || "Guest"}</p>
+                <h1 className="text-white font-bold text-lg leading-tight">
+                  Hardware Store
+                </h1>
+                <p className="text-sm font-extrabold text-white/80 truncate">
+                  {getUserRoleDisplay(user?.role) || "Guest"}
+                </p>
               </div>
             )}
           </div>
@@ -117,8 +138,18 @@ const Sidebar = () => {
               isCollapsed ? "absolute -right-3 top-5" : ""
             }`}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+              />
             </svg>
           </button>
         </div>
@@ -130,8 +161,12 @@ const Sidebar = () => {
                 {getUserInitials(user.name || user.email || "User")}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-white font-bold text-sm truncate">{user.name || user.email}</p>
-                <p className="text-orange-300 text-xs">{getUserRoleDisplay(user.role)}</p>
+                <p className="text-white font-bold text-sm truncate">
+                  {user.name || user.email}
+                </p>
+                <p className="text-orange-300 text-xs">
+                  {getUserRoleDisplay(user.role)}
+                </p>
               </div>
             </div>
           </div>
@@ -151,10 +186,24 @@ const Sidebar = () => {
                     } ${isCollapsed ? "justify-center" : "justify-start"}`}
                   >
                     <div className="flex-shrink-0">{getIcon(item.icon)}</div>
-                    {!isCollapsed && <span className="ml-3 font-bold whitespace-nowrap text-white flex-1 text-left">{item.title}</span>}
                     {!isCollapsed && (
-                      <svg className={`w-4 h-4 transition-transform duration-300 ${openDropdown === index ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      <span className="ml-3 font-bold whitespace-nowrap text-white flex-1 text-left">
+                        {item.title}
+                      </span>
+                    )}
+                    {!isCollapsed && (
+                      <svg
+                        className={`w-4 h-4 transition-transform duration-300 ${openDropdown === index ? "rotate-180" : ""}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 9l-7 7-7-7"
+                        />
                       </svg>
                     )}
                   </button>
@@ -165,7 +214,9 @@ const Sidebar = () => {
                           <Link
                             to={subItem.link}
                             className={`block py-2 px-3 text-sm font-semibold transition-all duration-300 ${
-                              isActive(subItem.link) ? "text-orange-400 bg-orange-600/20" : "text-white/70 hover:text-white hover:bg-orange-600/20"
+                              isActive(subItem.link)
+                                ? "text-orange-400 bg-orange-600/20"
+                                : "text-white/70 hover:text-white hover:bg-orange-600/20"
                             }`}
                           >
                             {subItem.title}
@@ -183,7 +234,11 @@ const Sidebar = () => {
                   } ${isCollapsed ? "justify-center" : "justify-start"}`}
                 >
                   <div className="flex-shrink-0">{getIcon(item.icon)}</div>
-                  {!isCollapsed && <span className="ml-3 font-bold whitespace-nowrap text-white">{item.title}</span>}
+                  {!isCollapsed && (
+                    <span className="ml-3 font-bold whitespace-nowrap text-white">
+                      {item.title}
+                    </span>
+                  )}
                 </Link>
               )}
             </li>
@@ -191,17 +246,30 @@ const Sidebar = () => {
         </ul>
       </nav>
 
-      <div className={`relative z-10 border-t border-orange-700/30 p-4 bg-orange-900/20 ${isCollapsed ? "text-center" : ""}`}>
+      <div
+        className={`relative z-10 border-t border-orange-700/30 p-4 bg-orange-900/20 ${isCollapsed ? "text-center" : ""}`}
+      >
         {!isCollapsed ? (
           <div>
-            <p className="font-bold text-white text-sm">© 2026 Hardware Store</p>
-            <p className="text-xs text-white/60 font-semibold">Inventory Management System</p>
-            <button onClick={handleLogout} className="mt-2 w-full bg-red-800/50 hover:bg-red-800 text-white py-1.5 text-xs font-bold transition-colors border border-red-600/30">
+            <p className="font-bold text-white text-sm">
+              © 2026 Hardware Store
+            </p>
+            <p className="text-xs text-white/60 font-semibold">
+              Inventory Management System
+            </p>
+            <button
+              onClick={handleLogout}
+              className="mt-2 w-full bg-red-800/50 hover:bg-red-800 text-white py-1.5 text-xs font-bold transition-colors border border-red-600/30"
+            >
               Logout
             </button>
           </div>
         ) : (
-          <button onClick={handleLogout} className="text-white hover:text-orange-400 transition-colors" title="Logout">
+          <button
+            onClick={handleLogout}
+            className="text-white hover:text-orange-400 transition-colors"
+            title="Logout"
+          >
             <Icons.LogOut size={20} />
           </button>
         )}

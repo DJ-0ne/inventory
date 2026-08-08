@@ -32,7 +32,9 @@ const MobileNav = () => {
 
   const isActive = (link) => {
     if (!link) return false;
-    return location.pathname === link || location.pathname.startsWith(link + "/");
+    return (
+      location.pathname === link || location.pathname.startsWith(link + "/")
+    );
   };
 
   // A group is "active" if its own link matches, or any of its sub-items does.
@@ -61,7 +63,7 @@ const MobileNav = () => {
       logout();
       localStorage.clear();
       sessionStorage.clear();
-      window.location.assign("/login");
+      window.location.assign("/");
     }
   };
 
@@ -76,21 +78,34 @@ const MobileNav = () => {
         <div className="flex items-center justify-between px-4 py-1.5">
           <div className="flex items-center space-x-2">
             <div className="relative">
-              <img src="/logo.jpeg" alt="Logo" className="w-8 h-8 object-cover border border-white/30 shadow-lg" />
+              <img
+                src="/logo.jpeg"
+                alt="Logo"
+                className="w-8 h-8 object-cover border border-white/30 shadow-lg"
+              />
               <span className="absolute bottom-0 right-0 w-2 h-2 bg-orange-400 border border-white rounded-full animate-pulse"></span>
             </div>
-            <h1 className="text-white font-bold text-sm leading-tight">Hardware Store</h1>
+            <h1 className="text-white font-bold text-sm leading-tight">
+              Hardware Store
+            </h1>
           </div>
           <div className="text-right">
-            <p className="text-white text-xs font-semibold">{user?.name || "User"}</p>
-            <p className="text-orange-200 text-[10px] font-medium">{getUserRoleDisplay(user?.role) || "Guest"}</p>
+            <p className="text-white text-xs font-semibold">
+              {user?.name || "User"}
+            </p>
+            <p className="text-orange-200 text-[10px] font-medium">
+              {getUserRoleDisplay(user?.role) || "Guest"}
+            </p>
           </div>
         </div>
       </div>
 
       {/* Backdrop for the sub-items sheet */}
       {openSheet !== null && (
-        <div className="fixed inset-0 bg-black/40 z-40" onClick={() => setOpenSheet(null)} />
+        <div
+          className="fixed inset-0 bg-black/40 z-40"
+          onClick={() => setOpenSheet(null)}
+        />
       )}
 
       {/* Sub-items sheet — pops up directly above the bottom bar.
@@ -98,10 +113,25 @@ const MobileNav = () => {
       {activeSheetItem && (
         <div className="fixed bottom-16 left-0 right-0 bg-blue-900 shadow-2xl z-50 rounded-t-2xl max-h-[60vh] overflow-y-auto border-t border-orange-400/30">
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 sticky top-0 bg-blue-900">
-            <span className="text-white font-bold text-sm">{activeSheetItem.title}</span>
-            <button onClick={() => setOpenSheet(null)} className="p-1 text-white/70 hover:text-white">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            <span className="text-white font-bold text-sm">
+              {activeSheetItem.title}
+            </span>
+            <button
+              onClick={() => setOpenSheet(null)}
+              className="p-1 text-white/70 hover:text-white"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
@@ -111,7 +141,9 @@ const MobileNav = () => {
                 <Link
                   to={subItem.link}
                   className={`flex items-center px-5 py-3 text-sm font-semibold transition-colors ${
-                    isActive(subItem.link) ? "text-orange-400 bg-orange-600/20" : "text-white/80 hover:text-white hover:bg-white/5"
+                    isActive(subItem.link)
+                      ? "text-orange-400 bg-orange-600/20"
+                      : "text-white/80 hover:text-white hover:bg-white/5"
                   }`}
                 >
                   {subItem.title}
@@ -129,26 +161,36 @@ const MobileNav = () => {
             item.subItems ? (
               <button
                 key={index}
-                onClick={() => setOpenSheet((prev) => (prev === index ? null : index))}
+                onClick={() =>
+                  setOpenSheet((prev) => (prev === index ? null : index))
+                }
                 className={`flex-shrink-0 min-w-[68px] flex flex-col items-center justify-center gap-0.5 px-2 transition-colors ${
-                  isGroupActive(item) || openSheet === index ? "text-white bg-orange-600/50" : "text-orange-100"
+                  isGroupActive(item) || openSheet === index
+                    ? "text-white bg-orange-600/50"
+                    : "text-orange-100"
                 }`}
               >
                 {getIcon(item.icon)}
-                <span className="text-[9px] font-semibold whitespace-nowrap leading-tight">{item.title}</span>
+                <span className="text-[9px] font-semibold whitespace-nowrap leading-tight">
+                  {item.title}
+                </span>
               </button>
             ) : (
               <Link
                 key={index}
                 to={item.link}
                 className={`flex-shrink-0 min-w-[68px] flex flex-col items-center justify-center gap-0.5 px-2 transition-colors ${
-                  isActive(item.link) ? "text-white bg-orange-600/50" : "text-orange-100"
+                  isActive(item.link)
+                    ? "text-white bg-orange-600/50"
+                    : "text-orange-100"
                 }`}
               >
                 {getIcon(item.icon)}
-                <span className="text-[9px] font-semibold whitespace-nowrap leading-tight">{item.title}</span>
+                <span className="text-[9px] font-semibold whitespace-nowrap leading-tight">
+                  {item.title}
+                </span>
               </Link>
-            )
+            ),
           )}
           {/* Logout — part of the sidebar's contents too, included for parity */}
           <button
