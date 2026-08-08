@@ -1,13 +1,15 @@
 // src/layout/Layout.jsx
-import React from 'react';
-import Sidebar from './sidebar/Sidebar';
-import MobileNav from './sidebar/MobileNav';
+import React from "react";
+import Sidebar from "./sidebar/Sidebar";
+import MobileNav from "./sidebar/MobileNav";
 
 const Layout = ({ children }) => {
   const renderChildren = () => {
     if (!children) return null;
     if (Array.isArray(children)) {
-      console.warn('⚠️ Layout received children as array, wrapping in fragment');
+      console.warn(
+        "⚠️ Layout received children as array, wrapping in fragment",
+      );
       return <>{children}</>;
     }
     return children;
@@ -26,9 +28,7 @@ const Layout = ({ children }) => {
         nav components.
       */}
       <div className="flex-1 overflow-y-auto bg-gray-50 pt-12 pb-16 lg:pt-0 lg:pb-0">
-        <div className="p-6">
-          {renderChildren()}
-        </div>
+        <div className="p-6">{renderChildren()}</div>
       </div>
     </div>
   );
