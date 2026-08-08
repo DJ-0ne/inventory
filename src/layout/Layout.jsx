@@ -1,7 +1,7 @@
 // src/layout/Layout.jsx
 import React from "react";
 import Sidebar from "./sidebar/Sidebar";
-import MobileNav from "./sidebar/Mobilenav";
+import MobileNav from "./sidebar/MobileNav";
 
 const Layout = ({ children }) => {
   const renderChildren = () => {
