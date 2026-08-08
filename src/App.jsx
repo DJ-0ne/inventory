@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./pages/auth/ProtectedRoute";
-import Login from "./pages/auth/";
+import Login from "./pages/auth/Login";
 import Layout from "./layout/Layout";
 
 // Import all pages
