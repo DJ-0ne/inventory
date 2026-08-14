@@ -114,14 +114,14 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
         <div>
           <h1 className="text-2xl font-bold text-blue-950">Add New Product</h1>
           <p className="text-gray-600 font-medium text-sm">Create a new product entry in the inventory</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <Link to="/inventory/products">
             <button className="flex items-center gap-2 bg-white border-2 border-blue-950/20 px-4 py-2 text-blue-950 font-bold hover:bg-gray-50 transition-colors">
               <ArrowLeft size={18} />

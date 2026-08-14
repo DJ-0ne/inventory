@@ -16,7 +16,7 @@ const Login = () => {
   });
   const [error, setError] = useState("");
 
-  // ✅ Get the page user was trying to access before login
+  //  Get the page user was trying to access before login
   const from = location.state?.from?.pathname || "/dashboard";
 
   const handleChange = (e) => {
@@ -66,7 +66,7 @@ const Login = () => {
 
       login(userData);
 
-      // ✅ Navigate to dashboard (or the page they were trying to access)
+      //  Navigate to dashboard (or the page they were trying to access)
       navigate("/dashboard", { replace: true });
     } catch (err) {
       setError("Login failed. Please try again.");

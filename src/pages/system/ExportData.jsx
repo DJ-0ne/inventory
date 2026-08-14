@@ -159,7 +159,7 @@ const ExportData = () => {
       setExportHistory(prev => [newExport, ...prev]);
 
       setExporting(false);
-      showCustomModal(`✅ Export completed successfully!\n\nFile: ${filename}\nRecords: ${data.length}\nFormat: ${selectedFormat}`, "success");
+      showCustomModal(` Export completed successfully!\n\nFile: ${filename}\nRecords: ${data.length}\nFormat: ${selectedFormat}`, "success");
     }, 2000);
   };
 
@@ -180,7 +180,7 @@ const ExportData = () => {
 
   const handleRefresh = () => {
     setExportHistory(prev => [...prev]);
-    showCustomModal("🔄 Export history refreshed!", "success");
+    showCustomModal(" Export history refreshed!", "success");
   };
 
   const getStatusBadge = (status) => {
@@ -194,13 +194,13 @@ const ExportData = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Custom Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white max-w-md w-full p-6 border-2 border-blue-950/20">
             <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 {modalType === "success" && <CheckCircle size={28} className="text-green-800" />}
                 {modalType === "error" && <AlertCircle size={28} className="text-red-800" />}
                 {modalType === "info" && <AlertCircle size={28} className="text-blue-950" />}
@@ -226,7 +226,7 @@ const ExportData = () => {
       )}
 
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
         <div>
           <h1 className="text-2xl font-bold text-blue-950">Export Data</h1>
           <p className="text-gray-600 font-medium text-sm">Export your data in various formats</p>

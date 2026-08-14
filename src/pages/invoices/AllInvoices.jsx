@@ -190,12 +190,12 @@ const AllInvoices = () => {
       // For now, we'll just show the modal
     }
     
-    showCustomModal(`✅ Invoice ${invoice.id} marked as PAID`, "success", invoice);
+    showCustomModal(` Invoice ${invoice.id} marked as PAID`, "success", invoice);
   };
 
   const handleRefresh = () => {
     loadInvoices();
-    showCustomModal("🔄 Invoices refreshed!", "success");
+    showCustomModal(" Invoices refreshed!", "success");
   };
 
   const handleExport = () => {
@@ -219,7 +219,7 @@ const AllInvoices = () => {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
     
-    showCustomModal("✅ All invoices exported successfully!", "success");
+    showCustomModal(" All invoices exported successfully!", "success");
   };
 
   const getStats = () => {
@@ -313,7 +313,7 @@ const AllInvoices = () => {
 
   if (loading) {
     return (
-      <div className="p-6 bg-gray-50 min-h-screen flex items-center justify-center">
+      <div className="p-4 sm:p-6 bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-950 mx-auto"></div>
           <p className="mt-4 text-blue-950 font-bold">Loading invoices...</p>
@@ -323,13 +323,13 @@ const AllInvoices = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Custom Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white max-w-md w-full p-6 border-2 border-blue-950/20">
             <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 {modalType === "success" && <CheckCircle size={28} className="text-green-800" />}
                 {modalType === "error" && <AlertCircle size={28} className="text-red-800" />}
                 {modalType === "info" && <AlertCircle size={28} className="text-blue-950" />}
@@ -373,12 +373,12 @@ const AllInvoices = () => {
       )}
 
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
         <div>
           <h1 className="text-2xl font-bold text-blue-950">All Invoices</h1>
           <p className="text-gray-600 font-medium text-sm">Manage and track all customer invoices</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <button 
             onClick={handleRefresh}
             className="flex items-center gap-2 bg-white border-2 border-blue-950/20 px-4 py-2 text-blue-950 font-bold hover:bg-gray-50 transition-colors"
@@ -552,7 +552,7 @@ const AllInvoices = () => {
                   </td>
                   <td className="py-3 px-4 text-gray-600 font-medium">{invoice.dueDate}</td>
                   <td className="py-3 px-4">
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <button
                         onClick={() => handleView(invoice)}
                         className="text-blue-950 hover:text-blue-700 transition-colors"

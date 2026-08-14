@@ -63,7 +63,7 @@ function App() {
       <AuthProvider>
         <Routes>
           {/* ===== PUBLIC ROUTES ===== */}
-          {/* ✅ Login page - accessible without authentication */}
+          {/*  Login page - accessible without authentication */}
           <Route path="/" element={<Login />} />
 
           {/* ===== PROTECTED ROUTES ===== */}
@@ -599,7 +599,7 @@ function App() {
           />
 
           {/* ===== CATCH ALL ===== */}
-          {/* ✅ Redirect any unknown routes to dashboard */}
+          {/*  Redirect any unknown routes to dashboard */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </AuthProvider>

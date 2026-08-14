@@ -209,7 +209,7 @@ const StockTransfers = () => {
 
     setShowTransferForm(false);
     setNewTransfer({ product: "", productId: "", from: "", to: "", quantity: "" });
-    alert(`✅ Transfer created successfully!\n${newTransfer.quantity} units of ${newTransfer.product}\nFrom: ${newTransfer.from}\nTo: ${newTransfer.to}`);
+    alert(` Transfer created successfully!\n${newTransfer.quantity} units of ${newTransfer.product}\nFrom: ${newTransfer.from}\nTo: ${newTransfer.to}`);
   };
 
   const handleUpdateStatus = (transferId, newStatus) => {
@@ -264,7 +264,7 @@ const StockTransfers = () => {
 
   if (loading) {
     return (
-      <div className="p-6 bg-gray-50 min-h-screen flex items-center justify-center">
+      <div className="p-4 sm:p-6 bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-950 mx-auto"></div>
           <p className="mt-4 text-blue-950 font-bold">Loading transfers...</p>
@@ -274,14 +274,14 @@ const StockTransfers = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
         <div>
           <h1 className="text-2xl font-bold text-blue-950">Stock Transfers</h1>
           <p className="text-gray-600 font-medium text-sm">Move stock between warehouse locations</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <button 
             onClick={handleRefresh}
             className="flex items-center gap-2 bg-white border-2 border-blue-950/20 px-4 py-2 text-blue-950 font-bold hover:bg-gray-50 transition-colors"
@@ -495,7 +495,7 @@ const StockTransfers = () => {
                     </span>
                   </td>
                   <td className="py-3 px-4">
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <button 
                         onClick={() => handleViewTransfer(transfer.id)}
                         className="text-blue-950 hover:text-blue-700 transition-colors"

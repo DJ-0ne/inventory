@@ -158,10 +158,10 @@ const Products = () => {
     currentPage * itemsPerPage
   );
 
-  // ✅ FIX: Return a SINGLE element with a wrapper div
+  //  FIX: Return a SINGLE element with a wrapper div
   if (loading) {
     return (
-      <div className="p-6 bg-gray-50 min-h-screen flex items-center justify-center">
+      <div className="p-4 sm:p-6 bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-950 mx-auto"></div>
           <p className="mt-4 text-blue-950 font-bold">Loading products...</p>
@@ -171,14 +171,14 @@ const Products = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
         <div>
           <h1 className="text-2xl font-bold text-blue-950">All Products</h1>
           <p className="text-gray-600 font-medium text-sm">Complete inventory list with stock status and details</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <button 
             onClick={loadProducts}
             className="flex items-center gap-2 bg-white border-2 border-blue-950/20 px-4 py-2 text-blue-950 font-bold hover:bg-gray-50 transition-colors"
@@ -228,7 +228,7 @@ const Products = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <select 
               className="border-2 border-blue-950/10 px-3 py-1 text-sm font-medium text-blue-950 outline-none bg-white"
               value={filterCategory}
@@ -311,7 +311,7 @@ const Products = () => {
                   </td>
                   <td className="py-3 px-4 text-gray-700 font-medium text-xs">{product.supplier || 'N/A'}</td>
                   <td className="py-3 px-4">
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <button 
                         onClick={() => handleView(product.id)}
                         className="text-blue-950 hover:text-blue-700 transition-colors"
@@ -355,11 +355,11 @@ const Products = () => {
         </table>
 
         {/* Table Footer with Pagination */}
-        <div className="flex items-center justify-between p-4 border-t-2 border-blue-950/10">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4 border-t-2 border-blue-950/10">
           <p className="text-sm text-gray-600 font-medium">
             Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredProducts.length)} of {filteredProducts.length} products
           </p>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button 
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}

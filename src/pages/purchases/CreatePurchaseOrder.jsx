@@ -147,7 +147,7 @@ const CreatePurchaseOrder = () => {
     dataService.addPurchaseOrder(purchaseOrder);
 
     setLoading(false);
-    alert(`✅ Purchase Order created successfully!\nOrder ID: ${purchaseOrder.id}\nTotal: $${total.toFixed(2)}`);
+    alert(` Purchase Order created successfully!\nOrder ID: ${purchaseOrder.id}\nTotal: $${total.toFixed(2)}`);
     navigate('/purchases/orders');
   };
 
@@ -168,9 +168,9 @@ const CreatePurchaseOrder = () => {
   const grandTotal = orderItems.reduce((sum, item) => sum + (item.total || 0), 0);
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
         <div>
           <h1 className="text-2xl font-bold text-blue-950">Create Purchase Order</h1>
           <p className="text-gray-600 font-medium text-sm">Generate a new purchase order for suppliers</p>

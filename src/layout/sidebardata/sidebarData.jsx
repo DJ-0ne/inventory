@@ -122,7 +122,7 @@ export const sidebarData = [
   }
 ];
 
-// ✅ ROLE-BASED ACCESS CONTROL
+//  ROLE-BASED ACCESS CONTROL
 const roleAccess = {
   'Administrator': {
     dashboard: true,
@@ -178,7 +178,7 @@ const roleAccess = {
   }
 };
 
-// ✅ SUB-ITEM ACCESS CONTROL - EXACT MATCHES
+//  SUB-ITEM ACCESS CONTROL - EXACT MATCHES
 const subItemAccess = {
   'Administrator': {
     'All Products': true,
@@ -262,7 +262,7 @@ const subItemAccess = {
   }
 };
 
-// ✅ MAIN FILTERING FUNCTION
+//  MAIN FILTERING FUNCTION
 export const getSidebarData = (userRole) => {
   if (!userRole) return [];
 

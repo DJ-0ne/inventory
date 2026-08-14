@@ -131,7 +131,7 @@ const InvoiceSettings = () => {
     localStorage.setItem('storeConfig', JSON.stringify(storeConfig));
     
     setLoading(false);
-    showCustomModal("✅ Invoice settings saved successfully!", "success");
+    showCustomModal(" Invoice settings saved successfully!", "success");
   };
 
   const handleReset = () => {
@@ -163,7 +163,7 @@ const InvoiceSettings = () => {
         { id: "mobile", label: "Mobile Payment", enabled: true },
         { id: "bank", label: "Bank Transfer", enabled: false }
       ]);
-      showCustomModal("🔄 Settings reset to defaults!", "info");
+      showCustomModal(" Settings reset to defaults!", "info");
     }
   };
 
@@ -173,13 +173,13 @@ const InvoiceSettings = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Custom Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white max-w-md w-full p-6 border-2 border-blue-950/20">
             <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 {modalType === "success" && <CheckCircle size={28} className="text-green-800" />}
                 {modalType === "error" && <AlertCircle size={28} className="text-red-800" />}
                 {modalType === "info" && <AlertCircle size={28} className="text-blue-950" />}
@@ -205,12 +205,12 @@ const InvoiceSettings = () => {
       )}
 
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
         <div>
           <h1 className="text-2xl font-bold text-blue-950">Invoice Settings</h1>
           <p className="text-gray-600 font-medium text-sm">Configure your invoice templates and preferences</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <button
             onClick={handleSubmit}
             disabled={loading}

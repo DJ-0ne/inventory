@@ -57,10 +57,10 @@ const Dashboard = () => {
   const [lowStockItems, setLowStockItems] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  // ✅ Check user role for navigation
+  //  Check user role for navigation
   const userRole = user?.role;
 
-  // ✅ Role-based navigation handlers
+  //  Role-based navigation handlers
   const handleAddProduct = () => {
     if (userRole === 'Administrator') {
       navigate('/inventory/add-product');
@@ -184,7 +184,7 @@ const Dashboard = () => {
         }],
         total: (product.reorder || 20) * product.price
       });
-      alert(`✅ Reorder placed for ${product.name} (${product.reorder || 20} units)`);
+      alert(` Reorder placed for ${product.name} (${product.reorder || 20} units)`);
     }
   };
 
@@ -308,14 +308,14 @@ const Dashboard = () => {
   const quickStats = dataService.getStats();
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
         <div>
           <h1 className="text-2xl font-bold text-blue-950">Dashboard</h1>
           <p className="text-gray-600 font-medium text-sm">Welcome back, {user?.name || 'User'}. Here's your business performance overview.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <button 
             onClick={handleRefresh}
             className="flex items-center gap-2 bg-white border-2 border-blue-950/20 px-4 py-2 text-blue-950 font-bold hover:bg-gray-50 transition-colors"
@@ -426,7 +426,7 @@ const Dashboard = () => {
               <h2 className="text-lg font-bold text-blue-950">Revenue Trend</h2>
               <p className="text-sm text-gray-600 font-medium">Monthly revenue comparison 2024 vs 2025</p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button className="text-xs font-bold text-blue-950 border border-blue-950/20 px-3 py-1 hover:bg-blue-950 hover:text-white transition-colors">Year</button>
               <button className="text-xs font-bold text-blue-950 border border-blue-950/20 px-3 py-1 bg-blue-950 text-white">Month</button>
               <button className="text-xs font-bold text-blue-950 border border-blue-950/20 px-3 py-1 hover:bg-blue-950 hover:text-white transition-colors">Week</button>
@@ -453,7 +453,7 @@ const Dashboard = () => {
               <h2 className="text-lg font-bold text-blue-950">Weekly Sales Performance</h2>
               <p className="text-sm text-gray-600 font-medium">Sales vs target for current week</p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <div className="flex items-center gap-1">
                 <span className="w-3 h-3 bg-blue-950 border border-blue-950"></span>
                 <span className="text-xs font-medium text-gray-600">Sales</span>

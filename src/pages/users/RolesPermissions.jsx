@@ -81,7 +81,7 @@ const RolesPermissions = () => {
     setRoles(updatedRoles);
     localStorage.setItem('roles', JSON.stringify(updatedRoles));
     setEditingRole(null);
-    showCustomModal(`✅ Role "${roles.find(r => r.id === roleId)?.name}" updated successfully!`, "success");
+    showCustomModal(` Role "${roles.find(r => r.id === roleId)?.name}" updated successfully!`, "success");
   };
 
   const handleAddRole = () => {
@@ -103,7 +103,7 @@ const RolesPermissions = () => {
     localStorage.setItem('roles', JSON.stringify(updatedRoles));
     setShowAddForm(false);
     setNewRole({ name: '', description: '', permissions: [] });
-    showCustomModal(`✅ Role "${role.name}" added successfully!`, "success");
+    showCustomModal(` Role "${role.name}" added successfully!`, "success");
   };
 
   const handleDeleteRole = (roleId) => {
@@ -118,7 +118,7 @@ const RolesPermissions = () => {
 
   const handleRefresh = () => {
     loadData();
-    showCustomModal("🔄 Roles & permissions refreshed!", "success");
+    showCustomModal(" Roles & permissions refreshed!", "success");
   };
 
   const handleAddPermission = () => {
@@ -129,7 +129,7 @@ const RolesPermissions = () => {
         const updatedPermissions = [...permissions, trimmed];
         setPermissions(updatedPermissions);
         localStorage.setItem('permissions', JSON.stringify(updatedPermissions));
-        showCustomModal(`✅ Permission "${trimmed}" added successfully!`, "success");
+        showCustomModal(` Permission "${trimmed}" added successfully!`, "success");
       } else {
         showCustomModal(`⚠️ Permission "${trimmed}" already exists`, "error");
       }
@@ -144,7 +144,7 @@ const RolesPermissions = () => {
 
   if (loading) {
     return (
-      <div className="p-6 bg-gray-50 min-h-screen flex items-center justify-center">
+      <div className="p-4 sm:p-6 bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-950 mx-auto"></div>
           <p className="mt-4 text-blue-950 font-bold">Loading roles & permissions...</p>
@@ -154,13 +154,13 @@ const RolesPermissions = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Custom Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white max-w-md w-full p-6 border-2 border-blue-950/20">
             <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 {modalType === "success" && <CheckCircle size={28} className="text-green-800" />}
                 {modalType === "error" && <AlertCircle size={28} className="text-red-800" />}
                 <h3 className="text-lg font-bold text-blue-950">
@@ -185,12 +185,12 @@ const RolesPermissions = () => {
       )}
 
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
         <div>
           <h1 className="text-2xl font-bold text-blue-950">Roles & Permissions</h1>
           <p className="text-gray-600 font-medium text-sm">Manage user roles and their access permissions</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <button 
             onClick={handleRefresh}
             className="flex items-center gap-2 bg-white border-2 border-blue-950/20 px-4 py-2 text-blue-950 font-bold hover:bg-gray-50 transition-colors"
@@ -288,7 +288,7 @@ const RolesPermissions = () => {
           <div key={role.id} className="bg-white border-2 border-blue-950/10 shadow-sm p-5">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                   <Shield size={24} className="text-blue-950" />
                   <h3 className="text-lg font-bold text-blue-950">{role.name}</h3>
                   {getRoleBadge(role.name)}
@@ -296,7 +296,7 @@ const RolesPermissions = () => {
                 <p className="text-gray-600 text-sm mt-1">{role.description}</p>
                 <p className="text-gray-500 text-xs mt-1">{role.userCount || 0} users assigned</p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 {editingRole === role.id ? (
                   <>
                     <button
@@ -369,11 +369,11 @@ const RolesPermissions = () => {
           <div>
             <p className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">Permission Legend</p>
             <div className="flex flex-wrap gap-4">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <div className="w-3 h-3 bg-blue-950"></div>
                 <span className="text-xs font-medium">Has Permission</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <div className="w-3 h-3 bg-white border-2 border-gray-300"></div>
                 <span className="text-xs font-medium">No Permission</span>
               </div>

@@ -392,7 +392,7 @@ const SalesReports = () => {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
     
-    showCustomModal("✅ Report exported successfully!", "success");
+    showCustomModal(" Report exported successfully!", "success");
   };
 
   const handlePrint = () => {
@@ -402,7 +402,7 @@ const SalesReports = () => {
 
   const handleRefresh = () => {
     loadData();
-    showCustomModal("🔄 Sales data refreshed!", "success");
+    showCustomModal(" Sales data refreshed!", "success");
   };
 
   const getStatusColor = (status) => {
@@ -416,7 +416,7 @@ const SalesReports = () => {
 
   if (loading) {
     return (
-      <div className="p-6 bg-gray-50 min-h-screen flex items-center justify-center">
+      <div className="p-4 sm:p-6 bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-950 mx-auto"></div>
           <p className="mt-4 text-blue-950 font-bold">Loading sales data...</p>
@@ -426,13 +426,13 @@ const SalesReports = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Custom Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white max-w-md w-full p-6 border-2 border-blue-950/20">
             <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 {modalType === "success" && <CheckCircle size={28} className="text-green-800" />}
                 {modalType === "error" && <AlertCircle size={28} className="text-red-800" />}
                 <h3 className="text-lg font-bold text-blue-950">
@@ -457,12 +457,12 @@ const SalesReports = () => {
       )}
 
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
         <div>
           <h1 className="text-2xl font-bold text-blue-950">Sales Reports</h1>
           <p className="text-gray-600 font-medium text-sm">Comprehensive sales analytics and performance metrics</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <button
             onClick={handleRefresh}
             className="flex items-center gap-2 bg-white border-2 border-blue-950/20 px-4 py-2 text-blue-950 font-bold hover:bg-gray-50 transition-colors"
@@ -496,7 +496,7 @@ const SalesReports = () => {
       {/* Date Range Filter */}
       <div className="bg-white p-4 border-2 border-blue-950/10 shadow-sm mb-6">
         <div className="flex flex-wrap items-center gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Calendar size={18} className="text-blue-950" />
             <span className="font-bold text-blue-950 text-sm">Date Range:</span>
           </div>

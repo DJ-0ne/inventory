@@ -89,7 +89,7 @@ const AddCustomer = () => {
 
     setLoading(false);
     showCustomModal(
-      `✅ Customer "${customer.name}" added successfully!\n\nEmail: ${customer.email}\nPhone: ${customer.phone}\nStatus: ${customer.status}`,
+      ` Customer "${customer.name}" added successfully!\n\nEmail: ${customer.email}\nPhone: ${customer.phone}\nStatus: ${customer.status}`,
       "success"
     );
   };
@@ -108,7 +108,7 @@ const AddCustomer = () => {
         status: "Active",
         notes: ""
       });
-      showCustomModal("🔄 Form reset successfully", "info");
+      showCustomModal(" Form reset successfully", "info");
     }
   };
 
@@ -120,13 +120,13 @@ const AddCustomer = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
       {/* Custom Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white max-w-md w-full p-6 border-2 border-blue-950/20">
             <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 {modalType === "success" && <CheckCircle size={28} className="text-green-800" />}
                 {modalType === "error" && <AlertCircle size={28} className="text-red-800" />}
                 {modalType === "info" && <AlertCircle size={28} className="text-blue-950" />}
@@ -152,12 +152,12 @@ const AddCustomer = () => {
       )}
 
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 pb-4 border-b-2 border-blue-950/20">
         <div>
           <h1 className="text-2xl font-bold text-blue-950">Add Customer</h1>
           <p className="text-gray-600 font-medium text-sm">Create a new customer profile</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <Link to="/customers/all">
             <button className="flex items-center gap-2 bg-white border-2 border-blue-950/20 px-4 py-2 text-blue-950 font-bold hover:bg-gray-50 transition-colors">
               <ArrowLeft size={18} />

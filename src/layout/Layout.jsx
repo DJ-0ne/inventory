@@ -27,8 +27,8 @@ const Layout = ({ children }) => {
         bar. Both collapse to 0 at `lg`, matching the 1024px check in both
         nav components.
       */}
-      <div className="flex-1 overflow-y-auto bg-gray-50 pt-12 pb-16 lg:pt-0 lg:pb-0">
-        <div className="p-6">{renderChildren()}</div>
+      <div className="flex-1 overflow-y-auto overflow-x-hidden bg-gray-50 pt-12 pb-16 lg:pt-0 lg:pb-0 w-full min-w-0">
+        {renderChildren()}
       </div>
     </div>
   );
